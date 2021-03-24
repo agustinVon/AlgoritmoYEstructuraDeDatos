@@ -5,21 +5,26 @@ import AlgoritmoYEstructuraDeDatos.Interfaces.StackInterface;
 import AlgoritmoYEstructuraDeDatos.utils.StackFactory;
 import AlgoritmoYEstructuraDeDatos.utils.StackType;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class StackTest{
 
     StackFactory<Integer> factory = new StackFactory();
-    StackInterface stackStatic = factory.createFromType(StackType.STATIC);
-    StackInterface stackDynamic = factory.createFromType(StackType.DYNAMIC);
+    StackInterface stackStatic;
+    StackInterface stackDynamic;
+
+    @Before
+    public void before(){
+        stackStatic=factory.createFromType(StackType.STATIC);
+        stackDynamic=factory.createFromType(StackType.DYNAMIC);
+    }
 
     @Test
     public void popEmptyStack(){
-        StackInterface<Integer> intStack = new Stack<>();
-
-        intStack.empty();
-        intStack.pop();
-        Assert.assertEquals(0,intStack.size());
+        stackStatic.empty();
+        stackStatic.pop();
+        Assert.assertEquals(0,stackStatic.size());
     }
 
     @Test
