@@ -1,11 +1,14 @@
 package AlgoritmoYEstructuraDeDatos.Interfaces;
 
+import AlgoritmoYEstructuraDeDatos.utils.IsEmptyException;
+
 public interface StackInterface<T> {
     
-    public boolean isEmpty();
-    public T peek();
-    public void pop();
-    public void stack(T element);
-    public int size();
-    public void empty();
+    boolean isEmpty();
+    T peek();
+    void pop() throws IsEmptyException;
+    void stack(T element);
+    int size();
+    void empty();
+
 }

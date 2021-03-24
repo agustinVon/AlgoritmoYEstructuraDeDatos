@@ -1,64 +1,101 @@
 package AlgoritmoYEstructuraDeDatos;
 
-
 import AlgoritmoYEstructuraDeDatos.Interfaces.StackInterface;
+import AlgoritmoYEstructuraDeDatos.utils.IsEmptyException;
 import AlgoritmoYEstructuraDeDatos.utils.StackFactory;
-import AlgoritmoYEstructuraDeDatos.utils.StackType;
+import AlgoritmoYEstructuraDeDatos.utils.ImplementationType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
+@RunWith(Parameterized.class)
 public class StackTest{
 
-    StackFactory<Integer> factory = new StackFactory();
-    StackInterface stackStatic;
-    StackInterface stackDynamic;
+    private final ImplementationType type;
+    private final StackFactory<Integer> factory;
+    private StackInterface<Integer> stack;
+
+    public StackTest(ImplementationType type){
+        this.type=type;
+        this.factory=new StackFactory<>();
+        this.stack = factory.createFromType(type);
+    }
+
+    @Parameterized.Parameters(name= "{0}")
+    public static Collection<ImplementationType> parameters(){
+        return new ArrayList<>(Arrays.asList(ImplementationType.STATIC, ImplementationType.DYNAMIC));
+    }
 
     @Before
     public void before(){
-        stackStatic=factory.createFromType(StackType.STATIC);
-        stackDynamic=factory.createFromType(StackType.DYNAMIC);
+        stack= factory.createFromType(type);
     }
 
+    /**
+     * IsEmptyException is expected when dequeue non existing element
+     */
     @Test
     public void popEmptyStack(){
-        stackStatic.empty();
-        stackStatic.pop();
-        Assert.assertEquals(0,stackStatic.size());
+        boolean exceptionWasThrown = false;
+        try {
+            stack.pop();
+        } catch (IsEmptyException e) {
+            exceptionWasThrown = true;
+        }
+        Assert.assertTrue(exceptionWasThrown);
     }
 
     @Test
-    public void addWhenFull(){
-        StackInterface<Integer> intStack = new Stack<>();
+    public void emptyTest(){
+        for (int i = 0; i < 50; i++) {
+            stack.stack(i);
+        }
+        stack.empty();
+        Assert.assertEquals(0,stack.size());
+    }
 
-        for (int i = 0; i < 1000; i++) {
-            intStack.stack(i);
+    @Test
+    public void peekDoesNotPopElement(){
+        stack.stack(1);
+        stack.stack(2);
+
+        int firstPeek = stack.peek();
+        Assert.assertEquals(firstPeek,(int) stack.peek());
+    }
+
+    @Test
+    public void orderConservationTest() throws IsEmptyException {
+        boolean orderIsConserved = true;
+
+        for (int i = 0; i < 200; i++) {
+            stack.stack(i);
         }
-        Assert.assertEquals(1000,intStack.size());
-        for (int i = 0; i < 2000; i++) {
-            intStack.stack(i);
+        for (int i = 199; i >= 0 ; i--) {
+            if(stack.peek() != i) orderIsConserved = false;
+            stack.pop();
         }
-        Assert.assertEquals(3000,intStack.size());
+
+        Assert.assertTrue(orderIsConserved);
     }
 
     @Test
     public void isEmptyTest(){
-        StackInterface<Integer> intStack = new Stack<>();
-
-        intStack.empty();
-        Assert.assertTrue(intStack.isEmpty());
+        Assert.assertTrue(stack.isEmpty());
     }
 
     @Test
-    public void size(){
-        StackInterface<Integer> intStack = new Stack<>();
-
+    public void size() throws IsEmptyException {
         for (int i = 0; i < 50; i++) {
-            intStack.stack(i);
+            stack.stack(i);
         }
         for (int i = 0; i < 20; i++) {
-            intStack.pop();
+            stack.pop();
         }
-        Assert.assertEquals(30,intStack.size());
+        Assert.assertEquals(30,stack.size());
     }
 }
