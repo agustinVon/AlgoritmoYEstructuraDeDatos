@@ -2,11 +2,16 @@ package AlgoritmoYEstructuraDeDatos;
 
 
 import AlgoritmoYEstructuraDeDatos.Interfaces.StackInterface;
+import AlgoritmoYEstructuraDeDatos.utils.StackFactory;
+import AlgoritmoYEstructuraDeDatos.utils.StackType;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class StackTest{
 
+    StackFactory<Integer> factory = new StackFactory();
+    StackInterface stackStatic = factory.createFromType(StackType.STATIC);
+    StackInterface stackDynamic = factory.createFromType(StackType.DYNAMIC);
 
     @Test
     public void popEmptyStack(){

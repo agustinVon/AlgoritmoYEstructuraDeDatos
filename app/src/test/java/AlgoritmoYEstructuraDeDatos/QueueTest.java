@@ -14,6 +14,14 @@ public class QueueTest {
     }
 
     @Test
+    public void dequeueEmpty(){
+        QueueInterface<Integer> intQueue = new Queue<>();
+        intQueue.dequeue();
+
+        Assert.assertEquals(0,intQueue.size());
+    }
+
+    @Test
     public void sizeTest(){
         QueueInterface<Integer> intQueue = new Queue<>();
 
