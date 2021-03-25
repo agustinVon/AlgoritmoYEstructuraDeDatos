@@ -95,7 +95,7 @@ public class QueueTest {
         for (int i = 0; i < 40; i++) {
             queue.enqueue(i);
         }
-        Assert.assertEquals(39,(int) queue.dequeue());
+        Assert.assertEquals(0,(int) queue.dequeue());
     }
 
     @Test
