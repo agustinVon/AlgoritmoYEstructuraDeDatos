@@ -1,9 +1,11 @@
 package AlgoritmoYEstructuraDeDatos;
 
 import AlgoritmoYEstructuraDeDatos.Interfaces.QueueInterface;
+import AlgoritmoYEstructuraDeDatos.Interfaces.StackInterface;
 import AlgoritmoYEstructuraDeDatos.utils.ImplementationType;
 import AlgoritmoYEstructuraDeDatos.utils.IsEmptyException;
 import AlgoritmoYEstructuraDeDatos.utils.QueueFactory;
+import AlgoritmoYEstructuraDeDatos.utils.StackFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import org.junit.runners.Parameterized;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Queue;
 
 @RunWith(Parameterized.class)
 public class QueueTest {
@@ -56,6 +59,14 @@ public class QueueTest {
         }
 
         Assert.assertTrue(exceptionThrown);
+    }
+
+    @Test
+    public void differentTypesOfDataAreAccepted() throws IsEmptyException {
+        QueueFactory<String> stringQueueFactory = new QueueFactory<>();
+        QueueInterface<String> queue = stringQueueFactory.createFromType(type);
+        queue.enqueue("Hello World");
+        Assert.assertEquals("Hello World", queue.dequeue());
     }
 
     @Test

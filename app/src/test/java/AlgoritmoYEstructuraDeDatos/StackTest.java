@@ -36,6 +36,14 @@ public class StackTest{
         stack= factory.createFromType(type);
     }
 
+    @Test
+    public void differentTypesOfDataAreAccepted(){
+        StackFactory<String> stringStackFactory = new StackFactory<>();
+        StackInterface<String> stack = stringStackFactory.createFromType(type);
+        stack.stack("Hello World");
+        Assert.assertEquals("Hello World", stack.peek());
+    }
+
     /**
      * IsEmptyException is expected when dequeue non existing element
      */
